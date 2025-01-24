@@ -1,0 +1,62 @@
+# Python files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.env
+*.DS_Store
+
+# Virtual environment
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Django-specific
+db.sqlite3
+*.log
+media/
+staticfiles/
+
+# Migrations
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# Secrets and settings
+*.env
+config/settings/local.py
+
+# Editor files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS-specific
+Thumbs.db
+.DS_Store
+
+# JetBrains IDE
+.idea/
+
+# Test and Coverage
+htmlcov/
+.tox/
+.coverage
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.hypothesis/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Distribution / Packaging
+*.egg
+*.egg-info/
+dist/
+build/
+wheels/
