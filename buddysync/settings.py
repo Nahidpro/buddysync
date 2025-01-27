@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users',
     'posts',
+    'connection',
 ]
 
 MIDDLEWARE = [
@@ -83,15 +84,21 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 REST_FRAMEWORK = {
+    # Authentication
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    
+    # Pagination
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,  # Default number of items per page
 }
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),  # Set validity for 15 minutes
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Set validity for 15 minutes
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Set validity for 1 day
 }
 
