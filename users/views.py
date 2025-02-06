@@ -6,6 +6,7 @@ from users.models import Account
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from rest_framework_simplejwt.tokens import RefreshToken 
 class TestView(APIView):
     def get(self, request):
        
@@ -17,16 +18,16 @@ class RegisterView(APIView):
         data = request.data
         password = data.get("password")
 
-        # Password validation
+       
         try:
             validate_password(password)
         except ValidationError as e:
             return Response({"password": e.messages}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Initialize the serializer with the request data
+        
         serializer = AccountSerializer(data=data)
 
-        # Check if the serializer is valid
+        
         if serializer.is_valid():
             serializer.save()  
             return Response({"message": "User registered successfully!"}, status=status.HTTP_201_CREATED)

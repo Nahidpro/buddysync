@@ -1,31 +1,38 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
+from rest_framework import status, permissions,generics
 from .models import Post
 from .serializers import PostSerializer
 from rest_framework.pagination import PageNumberPagination
 
-class PostListCreateView(APIView):
+# class PostListCreateView(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
+
+#     def get(self, request):
+#         posts = Post.objects.all().order_by('-created_at')
+        
+#         # Set up pagination
+#         paginator = PageNumberPagination()
+#         paginator.page_size = 5  # Number of posts per page
+#         paginated_posts = paginator.paginate_queryset(posts, request)
+        
+#         # Serialize paginated data
+#         serializer = PostSerializer(paginated_posts, many=True)
+#         return paginator.get_paginated_response(serializer.data)
+
+#     def post(self, request):
+#         serializer = PostSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save(user=request.user)
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class PostListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
+    queryset = Post.objects.all().order_by('-created_at')
+    serializer_class = PostSerializer
 
-    def get(self, request):
-        posts = Post.objects.all().order_by('-created_at')
-        
-        # Set up pagination
-        paginator = PageNumberPagination()
-        paginator.page_size = 5  # Number of posts per page
-        paginated_posts = paginator.paginate_queryset(posts, request)
-        
-        # Serialize paginated data
-        serializer = PostSerializer(paginated_posts, many=True)
-        return paginator.get_paginated_response(serializer.data)
-
-    def post(self, request):
-        serializer = PostSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(user=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class PostDetailView(APIView):
