@@ -42,7 +42,7 @@ class FriendSerializer(serializers.ModelSerializer):
         if data['from_user'] == data['to_user']:
             raise serializers.ValidationError("You cannot send a friend request to yourself.")
         
-        # Check for existing requests (using Q objects)
+      
         if Friend.objects.filter(
             (Q(from_user=data['from_user'], to_user=data['to_user']) |
              Q(from_user=data['to_user'], to_user=data['from_user']))
